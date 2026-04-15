@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n_ai_assistant
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      # --- TEMEL AYARLAR ---
+      - N8N_HOST=sunucu_ip_adresi_veya_domain
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=http://sunucu_ip_adresi_veya_domain/
+      - GENERIC_TIMEZONE=Europe/Istanbul
+      
+      # --- GÜVENLİK (ARAYÜZ GİRİŞİ İÇİN) ---
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=Ai@2026+ # Burayı güçlü bir şifreyle değiştir
+      
+      # --- SİSTEM AYARLARI ---
+      - N8N_ENCRYPTION_KEY=BYA_IT_SUPPORT_SECURE_VAULT_2026_#  # Örn: m7u2c4o_secure_key
+      
+    volumes:
+      # Ayarların silinmemesi için yerel klasöre bağladık
+      - ./n8n_data:/home/node/.n8n
+      # RAG dosyalarını n8n'in içindeki bu yola tünelliyoruz
+      - ./rag_files:/data/rag_files
+
+networks:
+  default:
+    name: n8n-network

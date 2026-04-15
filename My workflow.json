@@ -1,0 +1,519 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp_mesaj",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -864,
+        -32
+      ],
+      "id": "0e3c3977-0f01-4590-a31b-f66760eea4bd",
+      "name": "Webhook",
+      "webhookId": "cd02e594-8545-44b9-867d-a46ea7d6bf54"
+    },
+    {
+      "parameters": {
+        "from": "+14155238886",
+        "to": "={{ $('Webhook').item.json.body.WaId }}",
+        "toWhatsapp": true,
+        "message": "={{ $json.output.substring(0, 1500) + \"...\" }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        720,
+        0
+      ],
+      "id": "62485067-27ef-439d-bd4d-f196235d0586",
+      "name": "Send an SMS/MMS/WhatsApp message",
+      "credentials": {
+        "twilioApi": {
+          "id": "xYO5E2vNEpUVUGeT",
+          "name": "Twilio account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Webhook').item.json.body.Body }}",
+        "options": {
+          "systemMessage": "### KİMLİK VE GÖREV\nSen, Boğaziçi Yönetim AŞ bünyesinde çalışan profesyonel ve çözüm odaklı bir \"Bilgi İşlem (IT) Destek Asistanı\"sın. Görevin, personelin yaşadığı teknik sorunları rehberdeki bilgilerle çözmek ve onlara kurumsal bir dille yardımcı olmaktır.\n\n### KAYNAK YÖNETİMİ VE ÖNCELİK SIRASI\nCevaplarını oluştururken şu iki kaynağı hibrit bir şekilde kullanmalısın:\n\n1. BELLEK (MEMORY): Kullanıcının ismi, daha önce denediği adımlar, bahsettiği özel durumlar ve diyalog akışını buradan takip et. Eğer kullanıcı \"Az önce dediğim gibi\" veya \"İkinci adım neydi?\" derse, cevabı sohbet geçmişinden çek.\n2. BT ÇÖZÜM REHBERİ (TOOL): Teknik soruların (şifre, kota, VPN, yazıcı vb.) tek ve kesin kaynağıdır. Teknik bir bilgi verirken ASLA kendi hafızandaki genel bilgileri kullanma, sadece arama aracından (Vector Store) gelen veriyi aktar.\n\n### DAVRANIŞ KURALLARI\n- BAĞLAM TAKİBİ: Kullanıcıyla kurduğun diyaloğu bir bütün olarak gör. Kullanıcıyı tanı, ismini hatırla ve sorunun hangi aşamasında olduğunuzu bil.\n- DOĞRULUK: Eğer bir teknik sorunun cevabı BT ÇÖZÜM REHBERİ'nde yoksa, \"Bu konu rehberimde yer almıyor\" diyerek kullanıcıyı mutlaka Bridge (IT Destek Sistemi) üzerinden talep açmaya yönlendir. KESİNLİKLE uydurma bilgi verme.\n- ÜSLUP: Profesyonel, yardımsever ve net ol. Karmaşık teknik adımları (Markdown kullanarak) liste halinde sun.\n- LİNK PAYLAŞIMI: Rehberde geçen portal linklerini (örn: şifre sıfırlama linki) olduğu gibi, tıklanabilir formatta paylaş.\n\nCevaplarını her zaman kısa ve öz tut. Teknik rehberden bilgi verirken sadece gerekli adımları söyle. Cevabın asla 1500 karakteri geçmemeli.\n\nEğer cevap sana verilen rehber dokümanlarında yoksa, asla uydurma. Kullanıcıya 'Bu konuda henüz eğitim almadım, sizi ilgili birime aktarabilirim' de.\n\n### ÖRNEK SENARYO\nKullanıcı: \"Mücahit ben. Az önce dediğin ilk adımı yaptım ama bilgisayar hala yavaş.\"\nSen: \"Mücahit Bey, bilgisayarı yeniden başlatmanızın sorunu çözmemesine üzüldüm. Rehberimizdeki ikinci adım olan 'Başlangıç programlarını devre dışı bırakma' işlemini deneyelim mi? Bunun için Ctrl+Shift+Esc tuşlarına basarak...\"\n\n### KAPANIŞ KURALI (SİSTEM YÖNLENDİRMESİ İÇİN KRİTİK)\nKullanıcıya herhangi bir çözüm veya rehber adımı sunduktan sonra, mesajının en sonuna MUTLAKA şu cümleyi ekle:\n\"Bu adımlar sorununuzu çözdü mü? Lütfen sadece EVET veya HAYIR yazarak belirtin.\"",
+          "maxIterations": 10
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "debe8b77-fe19-4128-87e7-1ad8e9385353",
+      "name": "AI Agent",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        176,
+        192
+      ],
+      "id": "0a8a1ae8-77bd-46c5-b178-23c91087e6fe",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "k9laItB1SbB21Jhq",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "=boğaziçi_rehber",
+          "mode": "id"
+        },
+        "clearStore": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        -208,
+        0
+      ],
+      "id": "b3b3ed88-e328-403e-8608-eaab91c1887a",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        240
+      ],
+      "id": "aab2f67e-df06-4d99-9be6-a5b6bd771b6b",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\stj.mkizildemir\\.n8n-files\\it_rehber.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -384,
+        0
+      ],
+      "id": "256971b4-08a4-4ab8-8b4d-c629d38f47f0",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "modelName": "sentence-transformers/all-MiniLM-L6-v2",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsHuggingFaceInference",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        240
+      ],
+      "id": "34707735-c1fd-45dc-8e73-9d79c00492d5",
+      "name": "Embeddings HuggingFace Inference",
+      "credentials": {
+        "huggingFaceApi": {
+          "id": "2mV7u8I1ieNcWAJd",
+          "name": "Hugging Face account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Kullanıcı teknik bir destek istediğinde, şifre sorduğunda, hata aldığında veya şirket politikalarını sorduğunda KESİNLİKLE bu aracı kullan. Kendi hafızandaki bilgileri değil, sadece bu araçtan gelen teknik çözümleri kullanıcıya aktar."
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        192
+      ],
+      "id": "037c7d91-18ca-42c1-9149-63acce4e6ceb",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "memoryKey": {
+          "__rl": true,
+          "value": "=boğaziçi_rehber",
+          "mode": "id"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        400
+      ],
+      "id": "61a1d727-4261-4b88-ae25-ab4d8992d59a",
+      "name": "Simple Vector Store1"
+    },
+    {
+      "parameters": {
+        "modelName": "sentence-transformers/all-MiniLM-L6-v2",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsHuggingFaceInference",
+      "typeVersion": 1,
+      "position": [
+        304,
+        560
+      ],
+      "id": "068f02ff-8308-47b0-9846-668bf73b5bbb",
+      "name": "Embeddings HuggingFace Inference1",
+      "credentials": {
+        "huggingFaceApi": {
+          "id": "2mV7u8I1ieNcWAJd",
+          "name": "Hugging Face account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3-32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        592,
+        400
+      ],
+      "id": "6a59e54f-dc28-4c4e-b80b-0ac6448b40a2",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "k9laItB1SbB21Jhq",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.From }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        192
+      ],
+      "id": "4ec24ce4-cfea-4f69-a6c2-00b97d0afd5b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.Body }}",
+                    "rightValue": "Evet",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "992517d0-4ab2-4fbd-84d2-ae0d408d2b12"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b38a4d0c-767e-4be4-a2a9-a26e9245c3dd",
+                    "leftValue": "={{ $json.body.Body }}",
+                    "rightValue": "Hayır",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -608,
+        -48
+      ],
+      "id": "2b511ebb-39d5-4db4-bed2-5e29dd9c689a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "from": "+14155238886",
+        "to": "={{ $('Webhook').item.json.body.WaId }}",
+        "toWhatsapp": true,
+        "message": "=Harika! Sorununuzun çözülmesine sevindim. Başka bir yardıma ihtiyacınız olursa buradayım.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        -528,
+        -368
+      ],
+      "id": "be49fa14-6867-486d-8492-30e6be88f070",
+      "name": "Send an SMS/MMS/WhatsApp message1",
+      "credentials": {
+        "twilioApi": {
+          "id": "xYO5E2vNEpUVUGeT",
+          "name": "Twilio account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "from": "+14155238886",
+        "to": "={{ $('Webhook').item.json.body.WaId }}",
+        "toWhatsapp": true,
+        "message": "=Anlıyorum. Talebinizi tüm detaylarıyla IT departmanına iletiyorum. Lütfen bekleyin...",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        -368
+      ],
+      "id": "a7cfe50f-e0d9-4280-a327-8019d4c3aed7",
+      "name": "Send an SMS/MMS/WhatsApp message2",
+      "credentials": {
+        "twilioApi": {
+          "id": "xYO5E2vNEpUVUGeT",
+          "name": "Twilio account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings HuggingFace Inference": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings HuggingFace Inference1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Istanbul",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "443e7459-944c-47cb-b6f6-6cd4b91afdcf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8cdc1c7737054c2b2915c1ab286ec5739f2505ffbdc621a9f8d308371fc54b95"
+  },
+  "id": "rQPD8mut14mlD7Ib",
+  "tags": []
+}

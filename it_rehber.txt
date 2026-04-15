@@ -1,0 +1,57 @@
+# BOĞAZİÇİ YÖNETİM AŞ - BİLGİ İŞLEM DESTEK REHBERİ
+
+---
+
+## [Kategori] Şifre Unutma / Şifre Sıfırlama / Giriş Yapamama
+* **Sorunlar:** Şirket hesabına giriş yapamama, şifre unutma veya şifre değiştirme talebi.
+* **Hızlı Çözüm:** Bilgi İşlem ekibini beklemeden kendi başınıza şifre sıfırlayabilirsiniz.
+* **İşlem Adresi:** https://sifre.bogaziciyonetim.istanbul/
+* **Not:** Eğer bu portal üzerinden işlem yaparken bir hata alırsanız, lütfen **Bridge** üzerinden kayıt açın.
+
+---
+
+## [Kategori] KVKK Mail Engeli / TCKN (Kimlik Bilgisi) IBAN Hatası / DLP Güvenlik Politikası
+* **Sorunlar:** TCKN, IBAN veya gizli veri içeren e-postaların gönderilememesi, sistem tarafından engellenmesi.
+* **Neden:** Şirket veri güvenliği politikaları gereği uygulanan **DLP (Data Loss Prevention)** filtresi.
+* **Çözüm:** İş ihtiyacı doğrultusunda istisna tanımlanabilir.
+* **İşlem:** **Bridge** sistemi üzerinden gerekçenizi ve kullanım amacınızı belirten bir talep oluşturun. Değerlendirme sonrası izin verilecektir.
+
+---
+
+## [Kategori] Posta Kutusu Dolu / Mail Kutusu Hatası / Kota Sorunu
+* **Sorunlar:** Outlook mail kutusunun dolması, kota aşımı uyarısı, mail gönderip alamama.
+* **Çözüm Adımları:**
+    1. Gereksiz mailleri silin ve **Silinmiş Öğeler** klasörünü boşaltın.
+    2. **Dosya → Araçlar → Posta Kutusu Temizleme** menüsünden büyük boyutlu mailleri bulun ve silin.
+    3. **Dosya → Araçlar → Eski Öğeleri Temizle** diyerek arşivleme yapın.
+
+---
+
+## [Kategori] Windows veya Office Etkinleştirme / Lisans Uyarısı
+* **Sorunlar:** Office uygulamalarında "Lisans Başarısız" veya "Etkinleştirme Gerekiyor" uyarısı.
+* **Çözüm:** Bu işlem kullanıcı yetkisiyle çözülemez, teknik müdahale gerektirir.
+* **İşlem:** **Bridge** üzerinden "Office Lisans Sorunu" başlığıyla kayıt oluşturun. Bilgi İşlem ekibi lisans tanımlamasını yapacaktır.
+
+---
+
+## [Kategori] Bilgisayar Yavaşlığı / Donma Sorunları / PC Kasıyor
+* **Sorunlar:** Bilgisayarın yavaş çalışması, donmalar veya fare takılması.
+* **Kontrol Listesi:**
+    1. Bilgisayarı tamamen yeniden başlatın.
+    2. **Ctrl + Shift + Esc** (Görev Yöneticisi) üzerinden gereksiz başlangıç programlarını kapatın.
+    3. Disk alanını kontrol edin, doluysa gereksiz dosyaları temizleyin.
+* **Destek:** Sorun çözülmezse **Bridge** üzerinden talep açın.
+
+---
+
+## [Kategori] Yazıcı Sorunları / Çıktı Alamıyorum / Kağıt Sıkışması
+* **Sorunlar:** Yazıcıdan çıktı alamama, hata kodu, kağıt sıkışması veya yazıcının 'Çevrimdışı' görünmesi.
+* **Kontrol:** Bağlantıları, kağıt ve toner durumunu kontrol edin.
+* **İşlem:** Problem devam ediyorsa **Bridge** üzerinden arıza kaydı oluşturun.
+
+---
+
+## [Kategori] Ağ Erişim Sorunu / Ortak Ağ / VPN Bağlantısı
+* **Sorunlar:** Ortak klasörlere erişim hatası, VPN bağlantı sorunları, internet kopmaları.
+* **Kontrol:** İnternet bağlantınızı ve VPN'in bağlı olduğundan emin olun.
+* **İşlem:** Yetki hatası alıyorsanız kontrol için **Bridge** üzerinden talep açın.
